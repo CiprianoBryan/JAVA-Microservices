@@ -1,0 +1,59 @@
+###############################################################################
+############################## SPRING CLOUD ###################################
+###############################################################################
+
+Challenges:
+
+1. CONFIGURATION MANAGEMENT
+    * Spring Cloud Config Server
+
+ - Administración de la configuración es un desafío al tener múltiples microservicios,
+   múltiples entornos para cada uno de estos microservicios y múltiples instancias por cada entorno.
+ - El servidor de configuración de Spring Cloud proporciona un enfoque donde puede almacenar toda la configuración
+   para todos los diferentes entornos de todos los microservicios en un repositorio Git.
+ |_> Es decir toda la configuración para diferentes entornos de diferentes microservicios en un solo lugar, en una
+     ubicación centralizada y se puede usar SpringCloudConfigServer para exponer esa configuración a todos los microservicios.
+
+     CurrencyCalculationService    CurrencyExchangeService      LimitsService
+                   |                           |                      |
+                   |_________________          |        ______________|
+                                     v         v       v
+                                   SpringCloudConfigServer
+                                               |
+                                               v
+                                              Git
+
+2. DYNAMIC SCALE UP AND DOWN
+    * Naming Server (Eureka)
+    * Ribbon (Client Side Load Balancing) -> Spring Cloud LoadBalancer (update)
+    * Feign (Easier REST Clients)
+
+ - Naming Server: El servidor de nombres tiene dos características importantes:
+   1. Registro del servicio para todos los microservicios.
+   2. Descubrimiento de servicios
+   Entonces un Microservicio puede pedirle al servidor de nombres Eureka que le brinde las instancias actuales,
+   y el NamingServe le brindaría las URL de las instancias. (Relación Dinámica).
+
+ - Ribbon para el equilibro de carga del lado del cliente, se encarga de asegurar que la carga se distribuya
+   uniformemente entre las instancias existentes que obtiene el servidor de nombres (NamingServer).
+
+ - Feign como mecanismo para escribir clientes RESTful simples.
+
+3. VISIBILITY AND MONITORING
+    * Zipkin Distributed Tracing, servidor de rastreo de distribución Zipkin.
+ - Usaremos Spring Cloud Sloat para asignar ID para solicitar através de múltiples componentes y usariamos el
+   rastreo distribuido Zipkin para rastrear una solicitud através de múltiples componentes.
+
+    Una de las cosas importantes sobre los Microservicios es que estos tienen muchas características comunes.
+    Por ejemplo, al registrar análisis de seguridad y cosas por el estilo, no desea implementear todas estas características
+    comunes en cada Microservicio.
+
+ - Las API Gateways brindan excelentes soluciones para este tipo de desafios.
+   Utilizaremos una Netflix API Gateaway Zuul. -> Spring Cloud Gateway (update)
+
+4. FAULT TOLERANCE
+    * Hystrix -> Resilience4j (update)
+ - Si un servicio está inactivo, hystrix nos ayuda a configurar una respuesta predeterminada.
+
+Usaremos Docker para contener microservicios, ejecutaremos todos los microservicios usando Docker y Docker Compose.
+Usaremos Kubernetes para orquestar todos nuestros microservicios.
