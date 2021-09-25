@@ -70,3 +70,7 @@ Usaremos Kubernetes para orquestar todos nuestros microservicios.
 - Se define el puerto donde correrá SpringCloudConfigServerApplication el cual es 8888
 - Se añadió en spring.cloud.config.server.git.uri la ruta donde se encuentra el repositorio git (Centralized Configuration)
 - Probamos que funcione al consultar en el navegador por la URL http://localhost:8888/limits-service/default
+
+- Definimos el nombre del servicio limits-service en su application.properties name=limits-service
+- Cuando ejecutamos SpringCloudConfigServerApplication y LimitsServiceApplication, LimitsServiceApplication usará
+  la configuración centralizada del repositorio git
