@@ -57,3 +57,16 @@ Challenges:
 
 Usaremos Docker para contener microservicios, ejecutaremos todos los microservicios usando Docker y Docker Compose.
 Usaremos Kubernetes para orquestar todos nuestros microservicios.
+
+
+###############################################################################
+########################## DESCRIPCIÓN DE PASOS ###############################
+###############################################################################
+
+- Se creó el repositorio git git-localconfig-repo
+- Se le agregó el archivo limits-service.properties
+- Se pasaron los valores que contenia limits-service\...\application.properties a limits-service.properties
+- Se añadió la anotación @EnableConfigServer a SpringCloudConfigServerApplication.java
+- Se define el puerto donde correrá SpringCloudConfigServerApplication el cual es 8888
+- Se añadió en spring.cloud.config.server.git.uri la ruta donde se encuentra el repositorio git (Centralized Configuration)
+- Probamos que funcione al consultar en el navegador por la URL http://localhost:8888/limits-service/default
