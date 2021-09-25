@@ -60,6 +60,16 @@ Usaremos Kubernetes para orquestar todos nuestros microservicios.
 
 
 ###############################################################################
+############################## DEPENDENCIAS ###################################
+###############################################################################
+
+Spring Boot DevTools: Provee una configuración para una mejor experiencia de desarrollo
+Spring Boot Actuator: Para monitorear y administrar la aplicación
+Spring Web: Porque queremos construir una API Rest
+Config Client (Spring Cloud Config): Para que nos sea útil hablar con un servidor de configuración de la nube
+
+
+###############################################################################
 ########################## DESCRIPCIÓN DE PASOS ###############################
 ###############################################################################
 
