@@ -174,3 +174,12 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
   autenticación, autorización, ...
 - Creamos el microservicio api-gateway con las dependencias: Devtools, Actuator, Eureka client, Gateway
   Siendo Gateway que nos ayuda a implementar temas como seguridad, monitoreo ...
+- Habilitamos la comunicación de la API Gateway con Eureka con spring.cloud.gateway.discovery.locator.enabled=true
+- Eureka lista las aplicaciones, y los nombres el cual tiene de cada uno, por el cual podemos hacer uso para llamarlas
+  Por ejm:
+    http://localhost:8000/currency-exchange/from/USD/to/INR ->
+    http://localhost:8765/CURRENCY-EXCHANGE/currency-exchange/from/USD/to/INR
+  http://localhost:8765/CURRENCY-EXCHANGE apunta a http://localhost:8000 (instancia)
+- De esta manera se puede llamar cualquier servicio registrado en Eureka con API Gateway
+- Si se desea implementar un login, podemos implementarla en API Gateway y solo permitir aquellos servicios
+  que estan autenticados en sus microservicios.
