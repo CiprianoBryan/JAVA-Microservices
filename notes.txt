@@ -155,3 +155,9 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
   del otro servicio.
 - Creamos el microservicio naming-server con las dependencias: devtools, actuator y Eureka Server
 - Agregamos la anotación @EnableEurekaServer al NamingServerApplication
+
+- Para que un microservicio se conecte a Eureka solo es necesario agregar la dependencia en su pom.xml
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
