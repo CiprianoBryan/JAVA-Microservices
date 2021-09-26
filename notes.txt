@@ -161,3 +161,9 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
     </dependency>
+
+############################## LOAD BALANCER ##################################
+
+- FeignClient se comunicará con Eureka para captar las instancias del microservicio y equilibre las cargas entre ellos.
+- spring-cloud-...-eureka-client importa la dependencia spring-cloud-loadbalancer
+- Podemos ver todas las instancias cargadas en Eureka http://localhost:8761/
