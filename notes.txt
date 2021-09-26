@@ -167,3 +167,10 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
 - FeignClient se comunicará con Eureka para captar las instancias del microservicio y equilibre las cargas entre ellos.
 - spring-cloud-...-eureka-client importa la dependencia spring-cloud-loadbalancer
 - Podemos ver todas las instancias cargadas en Eureka http://localhost:8761/
+
+############################### API GATEWAY ###################################
+
+- Usamos API Gateway para implementar todas las características comunes de los microservicios como
+  autenticación, autorización, ...
+- Creamos el microservicio api-gateway con las dependencias: Devtools, Actuator, Eureka client, Gateway
+  Siendo Gateway que nos ayuda a implementar temas como seguridad, monitoreo ...
