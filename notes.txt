@@ -84,3 +84,23 @@ Config Client (Spring Cloud Config): Para que nos sea útil hablar con un servid
 - Definimos el nombre del servicio limits-service en su application.properties name=limits-service
 - Cuando ejecutamos SpringCloudConfigServerApplication y LimitsServiceApplication, LimitsServiceApplication usará
   la configuración centralizada del repositorio git
+
+
+- Más adelante se tendrá varias instancias de "Currency Conversion Microservice", y se necesitará saber qué instancia
+  del microservicio Currency Exchange está proporcionando la respuesta, la instancia 1, 2 o 3 (ports: 8000, 8001, 8002)
+
+                                  Currency Conversion Microservice
+                                                 |
+                                                 v
+                                           Load Balancer  ---> Naming Server
+                 ___________________________|    |    |___________________________
+                |                                |                                |
+                v                                v                                v
+ Currency Exchange - Instance 1    Currency Exchange - Instance 2    Currency Exchange - Instance 3
+
+- Agregaremos una variable con los detalles del entorno para poder rastrear la instancia de Currency Exchange
+- Creamos más instancias de un servicio en Run > Edit Configuration, en (+) creamos otro CurrencyExchangeServiceApplication
+  al colocar en el Main class: com.arimagroup.currencyexchangeservice.CurrencyExchangeServiceApplication,
+  luego en VM options: -Dserver.port=8001 (puerto siguiente al 8000).
+- De esta forma cuando llamemos al "Microservicio de Currency Exchange" desde "Currency Conversion Microservice"
+  sabremos qué instancia del "Microservicio de Currency Exchange" está respondiendo realmente.
