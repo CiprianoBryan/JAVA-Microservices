@@ -118,3 +118,14 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
   luego en VM options: -Dserver.port=8001 (puerto siguiente al 8000).
 - De esta forma cuando llamemos al "Microservicio de Currency Exchange" desde "Currency Conversion Microservice"
   sabremos qué instancia del "Microservicio de Currency Exchange" está respondiendo realmente.
+
+
+- Para llamar a un microservicio desde otro, usamos
+  ResTemplate().getForEntity(URL Microservice, tipo de clase resultado, uri variables)
+
+  ResponseEntity<CurrencyConversion> responseEntity = new RestTemplate().getForEntity("http://localhost:8000/
+                                                    currency-exchange/from/{from}/to/{to}", CurrencyConversion.class,
+                                                    uriVariables);
+  * El "tipo de clase resultado" no necesariamente es la misma que el del response del microservicio a llamar,
+  lo que sucederá, es que los campos comunes se llenaran con los valores del response.
+  * Las uri variables se envian por medio de un HashMap<String, String>
