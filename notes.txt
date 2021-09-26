@@ -129,3 +129,9 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
   * El "tipo de clase resultado" no necesariamente es la misma que el del response del microservicio a llamar,
   lo que sucederá, es que los campos comunes se llenaran con los valores del response.
   * Las uri variables se envian por medio de un HashMap<String, String>
+
+- Para llamar a un microservicio desde otro, sin usar tanto código (RestTemplate) creamos un proxy con Feign.
+  Debemos añadir la anotación @EnableFeignClients en el MicroserviceApplication de donde queremos llamar.
+  Luego crear un interface proxy con la anotación @FeignClient(name = "currency-exchange", url = "localhost:8000")
+   Los cuales son el nombre del microservicio a llamar y la url donde corre
+  Además colocaremos el método que queremos llamar del otro servicio.
