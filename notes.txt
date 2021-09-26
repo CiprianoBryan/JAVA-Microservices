@@ -87,6 +87,8 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
 ########################## DESCRIPCIÓN DE PASOS ###############################
 ###############################################################################
 
+######################## CENTRALIZED CONFIGURATION ############################
+
 - Se creó el repositorio git git-localconfig-repo
 - Se le agregó el archivo limits-service.properties
 - Se pasaron los valores que contenia limits-service\...\application.properties a limits-service.properties
@@ -98,6 +100,15 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
 - Definimos el nombre del servicio limits-service en su application.properties name=limits-service
 - Cuando ejecutamos SpringCloudConfigServerApplication y LimitsServiceApplication, LimitsServiceApplication usará
   la configuración centralizada del repositorio git
+- Se podrá manejar distintos perfiles de configuración, creando otras configuraciones agregando -dev, -qa
+  al nombre del archivo.
+     > limits-service.properties
+     > limits-service-dev.properties
+     > limits-service-qa.properties
+  El primer perfil será el default
+- Se pueden consultar desde un navegador mediante:
+  localhost:8888/limits-service/qa
+  localhost:8888/limits-service/default
 
 
 - Más adelante se tendrá varias instancias de "Currency Conversion Microservice", y se necesitará saber qué instancia
