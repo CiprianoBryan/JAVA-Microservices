@@ -68,6 +68,20 @@ Spring Boot Actuator: Para monitorear y administrar la aplicación
 Spring Web: Porque queremos construir una API Rest
 Config Client (Spring Cloud Config): Para que nos sea útil hablar con un servidor de configuración de la nube
 
+###############################################################################
+############################### PROPERTIES ####################################
+###############################################################################
+
+spring.application.name=currency-exchange -> Definimos el nombre de la aplicación
+spring.config.import=optional:configserver:http://localhost:8888 -> Definimos la ruta de la configuración central
+server.port=8000 -> Definimos el puerto donde correrá la aplicación, peor en VM options podemos sobreescribirlo
+
+spring.jpa.show-sql=true
+spring.datasource.url=jdbc:h2:mem:testdb -> Definimos el nombre de nuestra base de datos (testdb) para que no se cree
+                                            uno aleatorio.
+spring.h2.console.enabled=true -> Para ver los detalles que están presentes en la base de datos
+
+OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la aplicación cargará este archivo para la BD.
 
 ###############################################################################
 ########################## DESCRIPCIÓN DE PASOS ###############################
