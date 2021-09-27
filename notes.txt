@@ -183,3 +183,14 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
 - De esta manera se puede llamar cualquier servicio registrado en Eureka con API Gateway
 - Si se desea implementar un login, podemos implementarla en API Gateway y solo permitir aquellos servicios
   que estan autenticados en sus microservicios.
+
+- Para usar urls específicas, con el nombre que queremos debemos desactivar el locator
+- Configuramos nuestra url cuyo path es currecy-exchange ("/currency-exchange/**",
+  ejm: localhost:8765/currency-conversion-new/from/USD/to/INR/quantity/10) definiendo que la uri de esta será
+  "lb://currency-exchange", donde lb representa al Load Balancer Eureka con el API Gateway localhost:8765,
+  por lo que nuestra url estaría apuntando a uri/path ("lb://currency-exchange/currecy-exchange/**") =>
+  "localhost:8765:/currency-exchange/currecy-exchange/**"
+- Resumen, cuando se llame a "http://localhost:8765/currency-conversion/from/USD/to/INR/quantity/10" ==
+    /currecy-exchange/** == path
+  este estará apuntando a "http://localhost:8765/currency-conversion/currency-conversion/from/USD/to/INR/quantity/10"
+- También se podrá reemplazar el valor de un path con .filters() rewritePath
