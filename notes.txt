@@ -196,3 +196,6 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
 - También se podrá reemplazar el valor de un path con .filters() rewritePath
 
 - Quiero registrar cada solicitud que pasa por la API Gateway
+
+############################# FAULT TOLERANCE #################################
+################# CIRCUIT BREAKER FRAMEWORK - RESILIENCE4J ####################
