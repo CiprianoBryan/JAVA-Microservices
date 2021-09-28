@@ -199,3 +199,20 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
 
 ############################# FAULT TOLERANCE #################################
 ################# CIRCUIT BREAKER FRAMEWORK - RESILIENCE4J ####################
+
+- Agregamos las dependencias spring-boot-starter-aop, resilience4j-spring-boot2 en el microservicio donde queremos
+  usar Tolerancia a fallos.
+- @Retry nos permite llamar hasta 3 veces un método que lanza un error, para intentar levantarlo,
+  si el reintento falla, solo entonces devuelve un error.
+- Podemos usar el modo default (3 intentos), con @Retry(name = "default")
+- Si queremos especificar la cantidad de intentos podemos colocar un nombre @Retry(sample-api),
+  y colocar en el application.properties lo siguiente:
+  resilience4j.retry.instances.sample-api.max-attempts=5
+- Podemos definir el tiempo de espera entre intentos con:
+  resilience4j.retry.instances.sample-api.wait-duration=1s
+- Podemos establecer que después de cada intento el tiempo de espera aumente exponencialmente
+  resilience4j.retry.instances.sample-api.enable-exponential-backoff=true
+- Podemos definir un método que se llamará en caso falle un método con fallbackMethod
+  @Retry(name = "sample-api", fallbackMethod = "hardcodedResponse")
+- Luego creamos ese método teniendo como parametro una excepción para capturar en caso de error.
+  public String hardcodedResponse(Exception exception) {...}
