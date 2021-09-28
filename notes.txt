@@ -194,3 +194,5 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
     /currecy-exchange/** == path
   este estará apuntando a "http://localhost:8765/currency-conversion/currency-conversion/from/USD/to/INR/quantity/10"
 - También se podrá reemplazar el valor de un path con .filters() rewritePath
+
+- Quiero registrar cada solicitud que pasa por la API Gateway
