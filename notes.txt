@@ -198,7 +198,7 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
 - Quiero registrar cada solicitud que pasa por la API Gateway
 
 ############################# FAULT TOLERANCE #################################
-################# CIRCUIT BREAKER FRAMEWORK - RESILIENCE4J ####################
+############################### RESILIENCE4J ##################################
 
 - Agregamos las dependencias spring-boot-starter-aop, resilience4j-spring-boot2 en el microservicio donde queremos
   usar Tolerancia a fallos.
@@ -216,3 +216,14 @@ OJO: Al tener nuestro archivo data.sql en Resources, cada vez que se inicia la a
   @Retry(name = "sample-api", fallbackMethod = "hardcodedResponse")
 - Luego creamos ese método teniendo como parametro una excepción para capturar en caso de error.
   public String hardcodedResponse(Exception exception) {...}
+
+############################## CIRCUIT BREAKER ################################
+
+- En un estado CERRADO siempre llamará al microservicio dependiente.
+- En un estado ABIERTO no llamará al microservicio dependiente, retornará directamente la respuesta de reserva.
+- En un estado HALF OPEN, un circuit breaker enviaría un porcentaje de solicitudes al microservicio.
+
+- ¿Cuándo cambia de estado un circuit breaker?
+- inicia con estado CLOSED, después de muchas llamadas fallidas cambia a OPEN, después de un tiempo cambia de estado
+  a HALF OPEN, en este estado el Circuit breaker intentará ver si el microservicio está activo, enviando
+  un porcentaje de solicitudes al microservicio, si no obtiene las respuestas adecuadas, volverá a OPEN.
