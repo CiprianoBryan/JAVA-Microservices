@@ -242,3 +242,79 @@ resilience4j.ratelimiter.instances.default.limit-refresh-period=10s
 resilience4j.bulkhead.instances.sample-bulk.max-concurrent-calls=10
 
 
+###############################################################################
+################################# DOCKER ######################################
+###############################################################################
+
+- Se creará un Docker image para cada microservico, y contendrá las herramientas que necesite como JDK, Python, NodeJS,
+  la aplicación y sus dependencias.
+- Una vez completa el Docker image se puede ejecutar como contenedores de la misma manera en cualquier infraestructura,
+  en una máquina local, AWS, Azure...
+
+- Las imagenes se encuentran en Docker Hub (repo de imagenes)
+- La images es una versión estática y el contenedor es una versión en ejecución.
+- Para la misma imagen se puede tener varios contenedores en ejecución.
+- Al ejecutar un comando, este se realiza desde el Docker Client, y este se envía al Docker Daemon para su ejecución-
+- El Docker Daemon es responsable de los contenedores, administrar las imágenes locales y de extraer del registro de
+  imágenes o enviar una imagen creada localmente a un registro de imágenes.
+
+
+  DOCKER ARCHITECTURE:
+
+                                           Docker Client
+                                                 |
+                                                 v
+                                           Docker Daemon
+                 ___________________________|    |    |___________________________
+                |                                |                                |
+                v                                v                                v
+            Containers                      Local Images                    Image Registry
+                                                                    (nginx, mysql, eureka, your-app)
+
+
+- Cuando se realiza el Stop de un contenedor, la señal que se envía al contenedor es SIGTERM, lo que significa es que
+  el contenedor se tome su tiempo para detener sus conexiones para realizar un apagado limpio.
+- Cuando se realiza el Kill de un contenedor, se envía la señal SIGKILL y detiene inmediatamente el contenedor.
+
+################################ COMMANDS #####################################
+container id: 38155a29830 ...
+<container_id> : Es el container id, el cual solo es necesario ingresar los primeros caracteres, ejm: 38155
+
+docker logs -f <container_id> , ejm: docker logs -f 38155 : Visualizar los logs del contenedor
+
+docker run <image> : Corre la imagen, si no está disponible en el archivo local, lo descarga y crea un contenedor.
+    -p <local port: container port> : Asignamos un puerto de nuestro local para que se comunique con un puerto del contenedor
+    - d : --detach, por default los contenedores corren en primer plano, con esto lo pasamos a segundo plano
+    --name <container name> : asignamos un nombre a nuestro contenedor
+    --restart=<option> : Define si cada vez que se reinicia el Docker y el Daemos el contenedor se inicie automáticamente [always/no]
+    -m <quantity_memory> : Define la cantidad de memoria asignada al contenedor, ejm: -m 512m => 512 MegaBytes ó -m 1G => 1 GigaByte
+    --cpu-quota 100000 : Defina el porcentaje de uso de cpu, 10^5 = 100%, 5000 = 5%
+    Command example: docker run -p <local port: container port> -d --restart=no --name <container name> <image>
+docker run <image> == docker container run <image>
+docker container ls : Lista los contenedores en ejecución
+docker container ls -a: Lista los contenedores en ejecución y detenidos
+docker container stop <container_id> : Detiene limpiamente un contenedor en ejecución
+docker container kill <container_id> : Detiene inmediatamente un contenedor en ejecución
+docker container pause <container_id> : Pausa el contenedor
+docker container unpause <container_id> : Activa el contenedor
+docker container inspect <container_id> : Muestra los metadatos del contenedor, imagen de donde viene ...
+docker container prune : Elimina los contenedores detenidos
+
+docker top <container_id> : Lista los procesos ejecutándose en el contenedor
+
+docker events : Muestra los eventos que se generan por los contenedores como network disconnect, container stop, volumen unmount
+
+docker stats : Muestra las estadisticas sobre los contenedores que se ejecutan (% Memory, %CPU, ...)
+
+docker system df : Ayuda a ver lo que maneja el Docker Daemon, la administración de imagenes y contenedores
+
+docker tag <repository>:<tag> <repository>:<new tag> : Esto creará una imagen clon con el nuevo tag definido
+    EJM: docker tag nginx:1.0.0.RELEASE nginx:latest, luego con docker images o docker image ls visualizaremos
+
+docker pull <image> , ejm: docker pull mysql : Descarga la imagen que queremos
+
+docker image ls: Lista las imagenes
+docker image history <image_id o repository+tag> , ejm: docker image history f8049a029560 : Esto mostrará los pasos necesarios
+    para crear esa imagen específica.
+docker image inspect <image_id> : Inspeccionar configuración de la imagen
+docker image remove <image_id> : Eliminará la imagen de la máquina local
