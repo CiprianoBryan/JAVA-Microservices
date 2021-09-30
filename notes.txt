@@ -347,4 +347,8 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
   option 1: management.health.rabbit.enabled=false
   option 2: spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
 
+- Para que el "Distributed Tracing" rastree los microservicios solo es necesario agregar las dependencias anteriores.
+  Y además existe una configuración predeterminada que por defecto indica la ruta donde corre el Zipkin.
+  spring.zipkin.base-url=http://localhost:9411/
+
 > docker run -p 9411:9411 openzipkin/zipkin:2.23
