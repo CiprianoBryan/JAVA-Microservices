@@ -318,3 +318,33 @@ docker image history <image_id o repository+tag> , ejm: docker image history f80
     para crear esa imagen específica.
 docker image inspect <image_id> : Inspeccionar configuración de la imagen
 docker image remove <image_id> : Eliminará la imagen de la máquina local
+
+########################### DISTRIBUTED TRACING ###############################
+
+- Todos los microservicios involucrados enviarían toda la información mediante HTTP a un único servidor de rastreo distribuido
+  (Distribute Tracing Server) y este servidor almacena en una base de datos.
+- Se va a rastrear las solicitudes en múltiples servicios, para ello a cada solicitud se le debe asignar una identificación única.
+- Sleuth es una libreria que asigna un ID único a cada solicitud
+        <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-sleuth</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+        </dependency>
+
+- En caso el "Distributed Tracing Server" esté caido, se perderian la información de los microservicios, por ello
+  enviamos al intermediario "Rabbit MQ", y éste enviaría al "Distributed Tracing Server".
+        <dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit</artifactId>
+		</dependency>
+
+- No queremos rastrear todas las solicitudes que van entre los microservicios, sino un porcentaje de las solicitudes,
+  esto será nuestro muestreo, eso lo definimos en el properties
+  spring.sleuth.sampler.probability=1.0
+  option 1: management.health.rabbit.enabled=false
+  option 2: spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+
+> docker run -p 9411:9411 openzipkin/zipkin:2.23
