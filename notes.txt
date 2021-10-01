@@ -370,6 +370,7 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
 					<image>
 						<name>ciprianobryan/microservices-${project.artifactId}:${project.version}</name>
 					</image>
+					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -382,7 +383,28 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
 
 - Es una herramienta para definir y ejecutar aplicaciones Docker de varios contenedores.
 - Configurando un archivo YAML, y con un solo comando podemos iniciar todos los servicios definidos en él
+- Podemos definir las dependencias de un microservicio con otros mediante depends_on:
+  Por ejm: currency_exchange service depende de naming_server, por ende:
+  services:
+    currency_exchange:
+        ...
+        depends_on:
+            - naming-server
 
+    naming_server:
+        ...
+
+- Podemos sobreescribir valores que estan en los properties y agregar variables de entorno con:
+  services:
+    currency_exchange:
+        environment:
+            eureka.client.serviceUrl.defaultZone=http://naming-server:8761/eureka/
+
+  Cuando corremos currency-exchange-service este tiene definido por defaul la siguiente configuración:
+    eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka/
+  Así es como este servicio se conecta a Eureka, pero ahora cuando se ejecuta Eureka, ya no está corriendo
+  en nuestro localhost, sino en el localhost del contenedor al cual podemos apuntar a él con el nombre del servicio
+  naming-server.
 ############################### PROCEDIMIENTO #################################
 
 - Crear imagen: ciprianobryan/microservices-currency-exchange-service:0.0.1-SNAPSHOT

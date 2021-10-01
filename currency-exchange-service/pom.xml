@@ -99,6 +99,7 @@
 					<image>
 						<name>ciprianobryan/microservices-${project.artifactId}:${project.version}</name>
 					</image>
+					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
 				</configuration>
 			</plugin>
 		</plugins>
