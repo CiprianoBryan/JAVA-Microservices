@@ -419,3 +419,7 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
   http://currency-exchange:8000/currency-exchange/from/{from}/to/{to}
   Lo otro y más recomendable es usar variables de entorno desde un inicio para así definirlos en el sistema operativo
   de nuestra máquina local, y cuando usemos contenedores, definirlo en el environment del docker-compose.
+- Agregamos los 2 servicios (Currency Exchange and Conversion)
+  El Naming Server (Eureka) para que se comuniquen los servicios y aplique Load Balancer.
+  El API Gateway para llamar a cualquier API registrada en Eureka desde un mismo host (localhost:8765)
+  El Distributed Tracing (Zipkin) para rastrear todas las solicitudes que llegan a los distintos microservicios.
