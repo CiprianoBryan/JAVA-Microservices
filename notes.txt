@@ -352,3 +352,42 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
   spring.zipkin.base-url=http://localhost:9411/
 
 > docker run -p 9411:9411 openzipkin/zipkin:2.23
+
+########################## CREATE CONTAINER IMAGE #############################
+
+- Para crear la imagen de uno de nuestros servicios debemos añadir en el pom.xml spring-boot-maven-plugin lo siguiente,
+  configuration > image > name : <name repository>/<name container>
+  configuration > pullPolicy : IF_NOT_PRESENT -> Con esto Spring Boot obtendrá las imagenes base si no están presentes y
+            creará la imagen del proyecto, spring-boot-maven-plugin obtendrá las imagenes base del registro de Docker.
+
+
+    <build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>ciprianobryan/microservices-${project.artifactId}:${project.version}</name>
+					</image>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+- Luego ubicarse en el microservicio (proyecto) y ejecutar el comando maven:
+  mvn spring-boot:build-image
+
+############################## DOCKER COMPOSE #################################
+
+- Es una herramienta para definir y ejecutar aplicaciones Docker de varios contenedores.
+- Configurando un archivo YAML, y con un solo comando podemos iniciar todos los servicios definidos en él
+
+############################### PROCEDIMIENTO #################################
+
+- Crear imagen: ciprianobryan/microservices-currency-exchange-service:0.0.1-SNAPSHOT
+  Ejecutar "mvn spring-boot:build-image" en currency-exchange-service
+- Correr el contenedor: docker run -p 8000:8000 ciprianobryan/microservices-currency-exchange-service:0.0.1-SNAPSHOT
+  currency-exchange-service corre en el puerto 8000 del contenedor
+- Crear archivo Yaml, y ejecutarlo desde el IDE IntelliJ idea o por comando: docker-compose up
+
