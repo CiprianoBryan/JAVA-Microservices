@@ -438,3 +438,25 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
     - rabbitmq
   environment:
     - rabbit.uri=amqp://guest:guest@rabbitmq:5672
+
+
+###############################################################################
+############################### KUBERNETES ####################################
+###############################################################################
+
+- Es necesario cuando se quiere ejecutar varias instancias de distintos contenedores, distintas funciones:
+  * Auto Scaling: Escala contenedores basados en la demanda.
+  * Service Discovery: Ayuda a los microservicios a encontrar el uno al otro.
+  * Load Balancer
+  * Self Healing: Si una instancia de microservicio está inactiva, que lo identifique y lance automaticamente
+                  una nueva instancia.
+  * Zero Downtime Deployments: Que realice comprobaciones de estado y reemplace las instancias que fallan.
+
+- Opciones de Orquestador de contenedores:
+  * AWS:
+    > AWS Elastic Container Service (ECS)
+    > AWS Fargate: Serverless version of AWS ECS
+  * Cloud Neutral - Kubernetes -> Podemos ejecutarlo en cualquier nube
+    > AWS: Elastic Kubernetes (EKS)
+    > Azure: Azure Kubernetes (AKS)
+    > Google: Google Kubernetes Engine (GKE)
