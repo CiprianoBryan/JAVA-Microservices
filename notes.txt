@@ -412,4 +412,10 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
 - Correr el contenedor: docker run -p 8000:8000 ciprianobryan/microservices-currency-exchange-service:0.0.1-SNAPSHOT
   currency-exchange-service corre en el puerto 8000 del contenedor
 - Crear archivo Yaml, y ejecutarlo desde el IDE IntelliJ idea o por comando: docker-compose up
-
+- Luego de crear las imágenes de cada servicio, y agregarlos en el docker-compose.yaml, al correr el docker compose
+  se ejecutan todos a la vez, y pueden existir algunos errores asociados al hecho de apuntar al localhost en alguna
+  parte del código como en CurrencyConversionController:27, por lo que en esos casos se puede reemplazar el valor del
+  localhost por el nombre del servicio asociado a la imagen, en este caso currency-exchange, quedando:
+  http://currency-exchange:8000/currency-exchange/from/{from}/to/{to}
+  Lo otro y más recomendable es usar variables de entorno desde un inicio para así definirlos en el sistema operativo
+  de nuestra máquina local, y cuando usemos contenedores, definirlo en el environment del docker-compose.
