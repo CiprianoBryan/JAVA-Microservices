@@ -423,3 +423,18 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
   El Naming Server (Eureka) para que se comuniquen los servicios y aplique Load Balancer.
   El API Gateway para llamar a cualquier API registrada en Eureka desde un mismo host (localhost:8765)
   El Distributed Tracing (Zipkin) para rastrear todas las solicitudes que llegan a los distintos microservicios.
+- Para usar RabbitMQ en el docker-compose, debemos agregar estas configuraciones en cada servicio:
+  * currency exchange, currency conversion service y Api Gateway:
+  depends_on:
+    - rabbitmq
+  environment:
+    - rabbit.uri=amqp://guest:guest@rabbitmq:5672
+    - spring.rabbitmq.host=rabbitmq
+    - spring.zipkin.sender.type=rabbit
+
+  Y en el zipkin solo es necesario la ubicación:
+  * zipkin-server:
+  depends_on:
+    - rabbitmq
+  environment:
+    - rabbit.uri=amqp://guest:guest@rabbitmq:5672
