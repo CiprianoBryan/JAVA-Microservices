@@ -460,3 +460,28 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
     > AWS: Elastic Kubernetes (EKS)
     > Azure: Azure Kubernetes (AKS)
     > Google: Google Kubernetes Engine (GKE)
+
+- Kubernetes es el mejor administrador de recursos, puede gestionar miles de nodos (Servidores virtuales).
+    > AWS: Elastic Compute Cloud (EC2)
+    > Azure: Virtual Machines
+    > Google: Compute Engine
+    > Kubernetes: Nodos
+
+- Se tendrá un Nodo maestro, pero cuando se necesite alta disponibilidad se tendrá varios nodos maestros.
+- Clúster es una combinación de nodos y el nodo maestro.
+  > Nodos trabajadores o solo nodos
+  > Nodos que realizan la gestión se denominan nodos maestros, garantizan que los nodos esten cargados para el trabajo.
+
+- De cada uno de los nodos kubernetes reserva memoria porque tiene herramientas instaladas para su administración.
+- kubectl = Kube Controller
+
+############################### PROCEDIMIENTO #################################
+
+- Crear un Cluster
+- Abrir Cloud Shell
+- Ejecutar bryan@cloudshell:~$ kubectl create deployment hello-world-rest-api --image=ciprianobryan/<image name>:<tag>
+- Exponer el despliegue al mundo exterior: kubectl expose deployment hello-world-rest-api --type=LoadBalancer --port=8080
+- En la página de GCP (google cloud platform), en Services & Ingress ubicamos el despliegue, con el endpoint.
+- Al dar click en endpoint nos debe indicar {healthy:true}, y se puede usar los endpoints del microservicio en caso
+  el docker image se generó a partir de uno (Como un proyecto Spring Boot).
+  > Otros comandos: https://github.com/in28minutes/spring-microservices-v2/tree/main/05.kubernetes#commands
