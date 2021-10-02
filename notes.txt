@@ -507,6 +507,13 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
       > Namespace: [default/dev/qa/ ...] : Nos ayuda para definir nuestro entorno y así separar los recursos.
       > Labels: app=hello-world-rest-api
 
+- ...$ kubectl get replicasets : Los replicasets garantizan que se esté ejecutando un número específico de pods.
+                                 El campo DESIRED indica la cantidad de pods.
+- ...$ kubectl scale deployment <deployment name> --replicas=<quantity replicas> : Comando para aumentar la
+                                                                                    cantidad de réplicas.
+- ...$ kubectl get events --sort-by=.metadata.creationTimestamp : Para visualizar los eventos que suceden en
+                                                               segundo plano ordenador por el tiempo de creación.
+
 ############################### PROCEDIMIENTO #################################
 
 - Crear un Cluster
@@ -517,8 +524,15 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
 - Al dar click en endpoint nos debe indicar {healthy:true}, y se puede usar los endpoints del microservicio en caso
   el docker image se generó a partir de uno (Como un proyecto Spring Boot).
   > Otros comandos: https://github.com/in28minutes/spring-microservices-v2/tree/main/05.kubernetes#commands
-- ...$ kubectl get events
+- ...$ kubectl get events : Para ver lo que sucede en segundo plano
 - ...$ kubectl get pods
 - ...$ kubectl get replicaset
 - ...$ kubectl get deployment
 - ...$ kubectl get service
+
+- ...$ kubectl get replicasets: Nos mostrará que hay un pod corriendo
+- ...$ kubectl delete pods <NAME pod>: Eliminamos ese pod
+- ...$ kubectl get pods : Inmediatamente se lanza otro pod, ya que el replicaset tiene configurado
+                            que debe haber 1 pod ejecutandose.
+- ...$ kubectl scale deployment hello-world-rest-api --replicas=3
+- ...$ kubectl get pods : Vemos que ahora hay 3 pods corriendo
