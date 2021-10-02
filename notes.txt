@@ -474,14 +474,51 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
 
 - De cada uno de los nodos kubernetes reserva memoria porque tiene herramientas instaladas para su administración.
 - kubectl = Kube Controller
+- Comando que ejecutamos/ Cosas que se crean:
+  kubectl create deployment -> deployment, replicaset y pod
+  kubectl expose deployment -> service
+- Un Pod es la unidad despegable más pequeña de Kubernetes.
+
+            Kubernetes Architecture:
+
+            +-----------+ +-----------+   +-----------+ +-----------+
+            |Container 1| |Container 2|   |Container 3| |Container 4|
+            +-----------+ +-----------+   +-----------+ +-----------+
+            +-------------------------+   +-------------------------+
+            |          Pod 1          |   |          Pod 2          |
+            +-------------------------+   +-------------------------+
+            +-------------------------------------------------------+
+            |                         Node                          |
+            +-------------------------------------------------------+
+
+- ...$ kubectl create deployment <deployment name> --image=<image name:tag> : Crea un deployment basado en una imagen docker
+- ...$ kubectl expose deployment hello-world-rest-api --type=LoadBalancer --port=8080 : Expone el deployment
+- Con ...$ kubectl get pods -o wide, vemos los detalles de los pods
+  La ip donde está expuesta y la cantidad de contenedores.
+     Todos los contenedores que están en un pod comparten recursos
+     Dentro del mismo pod los contenedores pueden comunicarse entre sí mediante localhost
+- Con ...$ kubectl explain pods : vemos definiciones de pod
+- Podemos ver todos los detalles de un pod con:
+  ...$ kubectl get pods : listar pods
+  ...$ kubectl decribe pod <NAME pod> : Nos muestra :
+      > Name: nombre del pod
+      > Ip
+      > Containers
+      > Namespace: [default/dev/qa/ ...] : Nos ayuda para definir nuestro entorno y así separar los recursos.
+      > Labels: app=hello-world-rest-api
 
 ############################### PROCEDIMIENTO #################################
 
 - Crear un Cluster
 - Abrir Cloud Shell
 - Ejecutar bryan@cloudshell:~$ kubectl create deployment hello-world-rest-api --image=ciprianobryan/<image name>:<tag>
-- Exponer el despliegue al mundo exterior: kubectl expose deployment hello-world-rest-api --type=LoadBalancer --port=8080
+- Exponer el despliegue al mundo exterior: ...$ kubectl expose deployment hello-world-rest-api --type=LoadBalancer --port=8080
 - En la página de GCP (google cloud platform), en Services & Ingress ubicamos el despliegue, con el endpoint.
 - Al dar click en endpoint nos debe indicar {healthy:true}, y se puede usar los endpoints del microservicio en caso
   el docker image se generó a partir de uno (Como un proyecto Spring Boot).
   > Otros comandos: https://github.com/in28minutes/spring-microservices-v2/tree/main/05.kubernetes#commands
+- ...$ kubectl get events
+- ...$ kubectl get pods
+- ...$ kubectl get replicaset
+- ...$ kubectl get deployment
+- ...$ kubectl get service
