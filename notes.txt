@@ -513,6 +513,13 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
                                                                                     cantidad de réplicas.
 - ...$ kubectl get events --sort-by=.metadata.creationTimestamp : Para visualizar los eventos que suceden en
                                                                segundo plano ordenador por el tiempo de creación.
+- En caso nuestra aplicación tengamos que actualizarla a una nueva versión sin inactividad alguna.
+  Podemos ejecutar el siguiente comando:
+  ...$ kubectl set image deployment <deployment name> <container name>=<image name:tag>
+  Para ver los contenedores que corren dentro de un depliegue podemos verlo en el campo CONTAINERS del response del comando:
+  > La estrategia que utiliza la implementación, de forma predeterminada se llama ACTUALIZACIONES CONTINUAS.
+    Lo que hace es que actualiza un pod a la vez, detenie uno de la versión anterior y corre uno de la nueva versión.
+  ...$ kubectl get replicaset -o wide : Lista los replicaset con más detalles (información).
 
 ############################### PROCEDIMIENTO #################################
 
@@ -536,3 +543,16 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
                             que debe haber 1 pod ejecutandose.
 - ...$ kubectl scale deployment hello-world-rest-api --replicas=3
 - ...$ kubectl get pods : Vemos que ahora hay 3 pods corriendo
+
+- ..$ kubectl get replicasets -o wide, vemos que el contenedor del replicaset hello-world-rest-api-<hash>
+  se llama hello-world-rest-api
+- ..$ kubectl set image deployment hello-world-rest-api hello-world-rest-api=DUMMY_IMAGE:TEST, colocamos una imagen
+  que no existe para ver que sucede, y lo que sucede al ejecutar el comando es que las solicitudes a la api del contenedor
+  sigue funcionando, aunque subimos una imagen con error, esto sucede porque en realidad no está corriendo,
+  al visualizar con ...$ kubectl get rs - o wide, veremos que esa imagen no tendrá ningun pod corriendo,
+  y con ...$ kubectl get pods, vemos que el pod asociado a la imagen que se acaba de subir con error tendrá como
+  STATUS = InvalidImageName
+
+- Ahora colocamos una imagen válida
+  ..$ kubectl set image deployment hello-world-rest-api hello-world-rest-api=hello-world-rest-api:0.0.2.RELEASE
+  Al ejecutarse se detendrán los pods de la anterior versión, y se crearan otros 3 nuevos pods con STATUS=RUNNING
