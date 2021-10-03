@@ -521,6 +521,17 @@ docker image remove <image_id> : Eliminará la imagen de la máquina local
     Lo que hace es que actualiza un pod a la vez, detenie uno de la versión anterior y corre uno de la nueva versión.
   ...$ kubectl get replicaset -o wide : Lista los replicaset con más detalles (información).
 
+RESUMEN:
+> POD: Es un conjunto de contenedores, tiene una ip, etiquetas y anotaciones.
+> REPLICASET: Garantiza que siempre se esté ejecutando un número específico de pods.
+              Inclusive si se matase un pod, el replicaset lo observaría y lanzaría una nueva instancia del pod.
+              Los replicaset están vinculados con una versión de lanzamiento.
+> DEPLOYMENT: Garantiza que la actualización de lanzamiento, un cambio de V1 a V2, ocurra sin problemas.
+              Sin tiempo de inactividad cuando se lancen las nuevas versiones de aplicaciones.
+              Existen estrategias de actualización, como enviar 50% del tráfico a la V1, y el otro 50% a la V2 ó
+              ir cambiando de V1 a V2 de manera progresiva, disminuyendo la cantidad de instancias V1 y aumentando V2.
+              La estrategia predeterminada son actualizaciones continuas.
+
 ############################### PROCEDIMIENTO #################################
 
 - Crear un Cluster
